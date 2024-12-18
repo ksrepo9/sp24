@@ -68,4 +68,12 @@
         </plugins>
     </build>
 
+<distributionManagement>
+  <snapshotRepository>    
+    <id>deployment</id>
+    <name>snapshots</name>
+    <url>http://192.168.29.13:8081/repository/Portal_Snapshot/</url>
+  </snapshotRepository>
+</distributionManagement> 
+
 </project>
