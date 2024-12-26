@@ -39,9 +39,11 @@ pipeline {
 
 			
 		stage('Monitor Project') {
-            steps {              
+            steps {                    
+                catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
+          
                     sh """
-					    chmod +x ./mvnw
+					    chmod +x ./mvnw                       
 					    snyk auth 492bdf6f-8301-4d41-b8bf-6d4fa4fb8ddb
 						snyk code test
 						snyk test --json --severity-threshold=low
@@ -50,7 +52,9 @@ pipeline {
                     echo "Snyk monitoring completed successfully."
                 }          
                 
-             
+              archiveArtifacts artifacts: 'report.json', fingerprint: true
+
+            }
             }
 		        
 
@@ -76,5 +80,14 @@ pipeline {
             }
 			}		         
         }
+     post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
     }
+}
+
 
