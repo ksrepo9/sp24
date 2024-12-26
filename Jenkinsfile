@@ -52,7 +52,7 @@ pipeline {
                     echo "Snyk monitoring completed successfully."
                 }          
                 
-              archiveArtifacts artifacts: 'report.json', fingerprint: true
+              
 
             }
             }
