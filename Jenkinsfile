@@ -48,10 +48,9 @@ pipeline {
                         snyk monitor --org= --project-id= --json > report.json
                     """
                     echo "Snyk monitoring completed successfully."
-                }
+                }          
                 
-                // Archive report regardless of outcome.
-                archiveArtifacts artifacts: 'report.json', fingerprint: true
+             
             }
 		        
 
