@@ -42,10 +42,10 @@ pipeline {
             steps {              
                     sh """
 					    chmod +x ./mvnw
-					    snyk auth id
+					    snyk auth 492bdf6f-8301-4d41-b8bf-6d4fa4fb8ddb
 						snyk code test
 						snyk test --json --severity-threshold=low
-                        snyk monitor --org= --project-id= --json > report.json
+                        snyk monitor --org=ksrepo9 --project-id=492bdf6f-8301-4d41-b8bf-6d4fa4fb8ddb --json > report.json
                     """
                     echo "Snyk monitoring completed successfully."
                 }          
