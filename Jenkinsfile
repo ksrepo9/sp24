@@ -35,7 +35,33 @@ pipeline {
             steps {
                 sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=kspro -Dsonar.host.url=http://192.168.29.30:9000 -Dsonar.login=sqp_727cd2c07493015efb63de36da645a0faaf5ae01'      
             }
-			}	    
+			}
+        stages {
+        stage('Code Clone') {
+            steps {
+                git url
+            }
+			}			
+
+
+			
+		stage('Monitor Project') {
+            steps {              
+                    sh """
+					    chmod +x ./mvnw
+					    snyk auth id
+						snyk code test
+						snyk test --json --severity-threshold=low
+                        snyk monitor --org= --project-id= --json > report.json
+                    """
+                    echo "Snyk monitoring completed successfully."
+                }
+                
+                // Archive report regardless of outcome.
+                archiveArtifacts artifacts: 'report.json', fingerprint: true
+            }
+		        
+
 		stage('mvn Compile') {
             steps {
                 sh 'mvn compile'      
