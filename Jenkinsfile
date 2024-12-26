@@ -36,13 +36,6 @@ pipeline {
                 sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=kspro -Dsonar.host.url=http://192.168.29.30:9000 -Dsonar.login=sqp_727cd2c07493015efb63de36da645a0faaf5ae01'      
             }
 			}
-        stages {
-        stage('Code Clone') {
-            steps {
-                git url
-            }
-			}			
-
 
 			
 		stage('Monitor Project') {
@@ -85,4 +78,4 @@ pipeline {
 			}		         
         }
     }
-}
+
