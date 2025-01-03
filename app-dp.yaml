@@ -17,6 +17,9 @@
         owner: "{{USERNAME}}"
         group: "{{USERNAME}}"
         mode: '0755'
+
+    - name : Find the Service PID
+      
       
     - name: Remove file (delete file)
       ansible.builtin.file:
