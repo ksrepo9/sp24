@@ -19,7 +19,22 @@
         mode: '0755'
 
     - name : Find the Service PID
-      
+      shell : pgrep -f 'java -jar /exam/ks.jar'
+      register : PID
+      ignore_errors : true
+
+    - name : print PID
+      debug : 
+        msg : "PID"
+
+    - name : kill the "PID"
+      shell : "kill {{PID.stdout}}"
+      when : PID.stdout != "0"
+      ignore_errors : true
+
+    - name : print PID
+      debug : 
+        msg : "PID"
       
     - name: Remove file (delete file)
       ansible.builtin.file:
@@ -29,7 +44,7 @@
 
     - name : deploying artifact
       ansible.builtin.get_url:
-        url: "{{PACK_URL}}"
+        url: "{{version}}"
         dest: "{{EXAM_PACK}}"
         owner: "{{USERNAME}}"
         group: "{{USERNAME}}"
