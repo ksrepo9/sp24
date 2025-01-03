@@ -1,0 +1,37 @@
+- name : demo on app deploy
+  hosts : APP-PROD
+  become : yes
+  vars :
+    USERNAME : appuser
+    PACK_URL : http://192.168.29.13:8081/repository/Portal_Snapshot/com/exam/examserver/0.0.5-SNAPSHOT/examserver-0.0.5-20241230.143822-1.jar
+    EXAM_PACK : /exam/ks.jar
+  tasks :
+    - name : creating app service account
+      ansible.builtin.user:
+        name: "{{USERNAME}}"
+
+    - name : creating app directory
+      ansible.builtin.file:
+        path: /exam
+        state: directory
+        owner: "{{USERNAME}}"
+        group: "{{USERNAME}}"
+        mode: '0755'
+      
+    - name: Remove file (delete file)
+      ansible.builtin.file:
+        path: "{{EXAM_PACK}}"
+        state: absent
+      remote_src : "{{USERNAME}}"
+
+    - name : deploying artifact
+      ansible.builtin.get_url:
+        url: "{{PACK_URL}}"
+        dest: "{{EXAM_PACK}}"
+        owner: "{{USERNAME}}"
+        group: "{{USERNAME}}"
+        mode: '0644'
+            
+    - name : Starting Jar Package
+      ansible.builtin.shell: "su - appuser -c 'java -jar {{EXAM_PACK}} & '"
+     
