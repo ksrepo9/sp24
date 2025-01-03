@@ -20,7 +20,7 @@ public class Test {
     //get active quizzes
     @GetMapping
     public String getActiveQuizzes() {
-        return " Server Working ";
+        return " Application Working ";
     }
 
 }
