@@ -20,7 +20,7 @@ public class Test {
     //get active quizzes
     @GetMapping
     public String getActiveQuizzes() {
-        return " Application Working ";
+        return " KartikeyaSoft App is Working ";
     }
 
 }
